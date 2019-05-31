@@ -44,10 +44,17 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     // RENDER OPTIONS
     bool renderScene = true;
     std::vector<Car> cars = initHighway(renderScene, viewer);
-    
-    // TODO:: Create lidar sensor 
+    double groundSlope = 0;    // define slope of the ground
 
-    // TODO:: Create point processor
+    // Create lidar sensor 
+    Lidar* lidar = new Lidar(cars, groundSlope);
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud = lidar->scan();;
+    // const Vect3* origin = new const Vect3( 0, 0, 2.2);
+    // renderRays(viewer, *origin, pcl_cloud);
+    renderRays(viewer, lidar->position, pcl_cloud);
+
+    // Create point processor
   
 }
 
