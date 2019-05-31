@@ -25,8 +25,36 @@ http://www.pointclouds.org/downloads/windows.html
 
 ### MAC
 
-http://www.pointclouds.org/downloads/macosx.html
 http://www.pointclouds.org/documentation/tutorials/installing_homebrew.php
 
+TL;DR  
+Expects `Homebrew` installed and also requires `xcode command line tools` installed already
+> $ xcode-select --install
+
+```bash
+$ brew update
+$ brew tap homebrew/science
+```
+
+Installs latest version of `pcl`
+```bash
+brew install pcl
+```
+
+To update `pcl` periodically
+```bash
+$ brew update
+$ brew upgrade pcl
+```
 
 
+## Build & Run
+
+Clone the repository and execute following commands (requires `cmake` installed already)
+```bash
+$ mkdir build
+$ cd build/
+$ cmake ..
+$ make
+$ ./environment
+```
