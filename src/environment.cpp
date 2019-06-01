@@ -49,19 +49,28 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     // Create lidar sensor 
     Lidar* lidar = new Lidar(cars, groundSlope);
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud = lidar->scan();
+    pcl::PointCloud<pcl::PointXYZ>::Ptr inputCloud = lidar->scan();
     
     // --> alternate approach
     // const Vect3* origin = new const Vect3( 0, 0, 2.2);
-    // renderRays(viewer, *origin, pcl_cloud);
+    // renderRays(viewer, *origin, inputCloud);
 
     // --> Render rays
-    // renderRays(viewer, lidar->position, pcl_cloud);
+    // renderRays(viewer, lidar->position, inputCloud);
 
     // --> Render Point Clouds
-    renderPointCloud(viewer, pcl_cloud, "pcl", {1.0, 1.0, 1.0});
+    //renderPointCloud(viewer, inputCloud, "pcl", {1.0, 1.0, 1.0}); // turn it off when doing planar segmentation
 
-    // TODO:: Create point processor
+    // Create point processor
+    //ProcessPointClouds<pcl::PointXYZ> ptProcessor;    // --> on stack
+    ProcessPointClouds<pcl::PointXYZ>* ptProcessor = new ProcessPointClouds<pcl::PointXYZ>();   // --> on heap
+
+    // --> if Point processor is on stack
+    //std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segCloud = ptProcessor.SegmentPlane(inputCloud, 100, 0.2);
+    std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segCloud = ptProcessor->SegmentPlane(inputCloud, 100, 0.2);
+
+    renderPointCloud(viewer, segCloud.first, "obstacleCloud", Color(1, 0, 0));
+    renderPointCloud(viewer, segCloud.second, "planeCloud", Color(0, 1, 0));
   
 }
 
