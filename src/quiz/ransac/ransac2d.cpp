@@ -86,7 +86,7 @@ std::unordered_set<int> Ransac(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int ma
 		y2 = cloud->points[*itr].y;
 
 		// Fit the line : Ax + By + C = 0
-		a = (y2 - y1);
+		a = (y1 - y2);
 		b = (x2 - x1);
 		c = (x1*y2 - x2*y1);
 
